@@ -1,5 +1,6 @@
 import bcryptjs from "bcryptjs";
 import User from '../Models/UserModel.js'
+import { createError } from "../Utils/error.js";
 
 
 const { genSalt, hash } = bcryptjs
@@ -23,6 +24,8 @@ export const register = async (req, res, next) => {
 
         // console.log(newUser)
 
+
+        //REMOVING CRITICAL INFO FROM THE DATA TO SEND THE RESPONSE
         const { password, ...others } = newUser._doc
 
         await newUser.save()
@@ -33,10 +36,12 @@ export const register = async (req, res, next) => {
             data: others
         })
     } catch (error) {
-        console.log(error)
+        next(error)
     }
 }
 
+
+// Login Controller  =====>
 export const login = async (req, res, next) => {
 
     try {
@@ -45,17 +50,21 @@ export const login = async (req, res, next) => {
         const { password, ...others } = userLogin._doc
 
         if (!userLogin) {
-            console.error('email not matched')
+            next(createError(404,'user not found'))
             return
         }
+
+        const token = jwt.sign({userLogin}, process.env.JWT, {expiresIn : "24h"})
+
         res.status(200).json({
             status: 'Success',
             message: "User login Successfully",
-            data: others
+            data: others,
+            access_token : token
         })
 
     } catch (error) {
-        console.log(error)
+        next(createError(error.status, error.message))
     }
 }
 // export const updateAuth = async (req, res, next) => {
@@ -69,7 +78,11 @@ export const login = async (req, res, next) => {
 
 
 // export const deleteAuth = async (req, res, next) => {
-
+// try {
+    
+// } catch (error) {
+//     cons
+// }
 // }
 
 
