@@ -1,4 +1,5 @@
 import express from 'express'
+import {verifyToken} from '../Utils/verifyToken.js'
 import {
     register, 
     login,
@@ -8,7 +9,7 @@ import {
 const authRoute = express.Router()
 
 authRoute.post('/register', register)
-authRoute.post('/login', login)
+authRoute.post('/login',verifyToken, login)
 // authRoute.post('/delete', deleteAuth)
 // authRoute.post('/getAuth', getAuth)
 
