@@ -1,15 +1,14 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv';
-// import authRoute from './Routes/authRoute.js';
-// import adminRoute from './Routes/adminRoute.js';
+import authRoute from './Routes/authRoute.js';
+import adminRoute from './Routes/adminRoute.js';
 import invoiceRoute from './Routes/invoiceRoute.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'
 
 dotenv.config()
 const app = express()
-app.use(cors())
 //Port defined in env if in no one in .env then 8500 is executed.. ====>
 const PORT = process.env.PORT || 8500
 
@@ -25,11 +24,11 @@ const connectDB = () => {
 }
 
 //Reading in json file for this body parser =====>
+app.use(cors())
 app.use(bodyParser.json());
-
 // middlewares =====>
-// app.use('/api/auth', authRoute)
-// app.use('/api/admin', adminRoute)
+app.use('/api/auth', authRoute)
+app.use('/api/admin', adminRoute)
 app.use('/api/invoice', invoiceRoute)
 
 
