@@ -2,7 +2,8 @@ import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv';
 // import authRoute from './Routes/authRoute.js';
-import adminRoute from './Routes/adminRoute.js';
+// import adminRoute from './Routes/adminRoute.js';
+import invoiceRoute from './Routes/invoiceRoute.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'
 
@@ -28,7 +29,8 @@ app.use(bodyParser.json());
 
 // middlewares =====>
 // app.use('/api/auth', authRoute)
-app.use('/api/admin', adminRoute)
+// app.use('/api/admin', adminRoute)
+app.use('/api/invoice', invoiceRoute)
 
 
 //Error Middleware ====> 
