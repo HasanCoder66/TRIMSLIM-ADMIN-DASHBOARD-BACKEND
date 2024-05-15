@@ -1,7 +1,7 @@
 import bcryptjs from "bcryptjs";
 import User from '../Models/UserModel.js'
 import { createError } from "../Utils/error.js";
-
+import jwt from 'jsonwebtoken'
 
 const { genSalt, hash } = bcryptjs
 
@@ -40,34 +40,70 @@ export const register = async (req, res, next) => {
     }
 }
 
-
-// Login Controller  =====>
-export const login = async (req, res, next) => {
-
+export async function login(req, res, next) {
     try {
-        const userLogin = await User.findOne({ email: req.body.email })
-        console.log(userLogin)
-        const { password, ...others } = userLogin._doc
-
-        if (!userLogin) {
-            next(createError(404,'user not found'))
-            return
+        const user = await User.findOne({ email: req.body.email });
+        console.log(user);
+        if (!user) {
+            // next(404, "User not found")
+            next(createError(404, `User not found`));   //${message}
+            return;
         }
+        const isCorrect = await bcryptjs.compare(req.body.password, user.password);
+        if (!isCorrect) {
+            // next(400, "Incorrect email or password")
+            next(createError(400, "Incorrect email or password"));
+            return;
+        }
+        const token = jwt.sign({ user }, process.env.JWT, { expiresIn: "24h" });
+        const { password, ...other } = user._doc;
 
-        const token = jwt.sign({userLogin}, process.env.JWT, {expiresIn : "24h"})
-        console.log(token)
+        let message = "User sign in successfully";
+        
 
-        res.status(200).json({
-            status: 'Success',
-            message: "User login Successfully",
-            data: others,
-            access_token : token
-        })
-
+        res.status(200).send({
+            status: "Success",
+            message: message,
+            data: other,
+            access_token: token,
+        });
     } catch (error) {
-        next(createError(error.status, error.message))
+        // next(error.status, error.message)
+        next(createError(error.status, error.message));
     }
 }
+
+
+// Login Controller  =====>
+// export const login = async (req, res, next) => {
+
+//     try {
+//         const userLogin = await User.findOne({ email: req.body.email })
+//         console.log(userLogin)
+//         const { password, ...others } = userLogin._doc
+
+//         if (!userLogin) {
+//             next(createError(404,'user not found'))
+//             return
+//         }
+
+//         const token = jwt.sign({userLogin}, process.env.JWT, {expiresIn : "24h"})
+//         console.log(token)
+
+//         res.status(200).json({
+//             status: 'Success',
+//             message: "User login Successfully",
+//             data: others,
+//             access_token : token
+//         })
+
+//     } catch (error) {
+//         next(createError(error.status, error.message))
+//     }
+// }
+
+
+
 // export const updateAuth = async (req, res, next) => {
 
 //     try {
