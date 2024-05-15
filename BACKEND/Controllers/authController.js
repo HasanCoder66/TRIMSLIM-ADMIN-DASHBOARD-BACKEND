@@ -29,14 +29,14 @@ export const register = async (req, res, next) => {
         const { password, ...others } = newUser._doc
 
         await newUser.save()
-
+        let message = "User Create Successfully"
         res.status(200).json({
             status: "Success",
-            message: "User Create Successfully",
+            message: message,
             data: others
         })
     } catch (error) {
-        next(error)
+        next(createError(error.status,error.message))
     }
 }
 
@@ -55,6 +55,7 @@ export const login = async (req, res, next) => {
         }
 
         const token = jwt.sign({userLogin}, process.env.JWT, {expiresIn : "24h"})
+        console.log(token)
 
         res.status(200).json({
             status: 'Success',
