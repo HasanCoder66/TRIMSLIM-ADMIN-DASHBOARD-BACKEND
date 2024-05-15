@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoute from './Routes/authRoute.js';
 import adminRoute from './Routes/adminRoute.js';
 import invoiceRoute from './Routes/invoiceRoute.js';
+import appointmentsRoute from './Routes/appointmentsRoute.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'
 
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoute)
 app.use('/api/admin', adminRoute)
 app.use('/api/invoice', invoiceRoute)
+app.use('/api/appointments', appointmentsRoute)
 
 
 //Error Middleware ====> 
