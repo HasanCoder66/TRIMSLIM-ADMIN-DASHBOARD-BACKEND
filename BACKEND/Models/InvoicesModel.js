@@ -18,8 +18,8 @@ const invoicesSchema = Schema(
         },
         status: {
             type: String,
-            enum: ['pending payment', 'completed', 'overdue', 'cancelled', 'draft', 'partially-paid', "paid"],
-            default: 'pending'
+            enum: ['pending', 'completed', 'paid'],
+            default: 'pending payment'
         },
     },
     { timeStamps: true }
