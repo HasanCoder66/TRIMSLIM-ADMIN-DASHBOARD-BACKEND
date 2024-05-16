@@ -10,26 +10,33 @@ import bodyParser from 'body-parser';
 import cors from 'cors'
 import productsRoute from './Routes/productsRoute.js';
 import uploadRoute from './Routes/uploadRoute.js';
+import physicianRoute from "./Routes/PhysicianRoute.js";
 
 dotenv.config()
 const app = express()
+
 //Port defined in env if in no one in .env then 8500 is executed.. ====>
-const PORT = process.env.PORT || 8500
+const PORT = process.env.PORT || 8500;
 
-// Connect to MongoDB =====> 
+// Connect to MongoDB =====>
 const connectDB = () => {
-    mongoose.connect(process.env.MONGO_URI)
-        .then(() => {
-            console.log("Backend Connected")
-        })
-        .catch((error) => {
-            throw error
-        })
-}
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+      console.log("Backend Connected");
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
 
+// Middlewares=====>>>>
+app.use(cookieParser());
+app.use(express.json());
+app.use(bodyParser.json());
 //Reading in json file for this body parser =====>
 app.use(cors())
-app.use(bodyParser.json());
+
 // middlewares =====>
 app.use('/api/auth', authRoute)
 app.use('/api/admin', adminRoute)
@@ -38,31 +45,29 @@ app.use('/api/appointments', appointmentsRoute)
 app.use('/api/products', productsRoute)
 app.use('/api/upload', uploadRoute)
 app.use('/api/patient', patientsRoute)
+app.use("/api/physicians", physicianRoute)
 
 
-//Error Middleware ====> 
 
+
+//Error Middleware ====>
 app.use((err, req, res, next) => {
-    const errorStatus = err.status || 500
-    const errorMessage = err.message || "Something went wrong!";
-    const errorStack = err.stack || "No stack trace available";
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "Something went wrong!";
+  const errorStack = err.stack || "No stack trace available";
 
+  console.error("error stack", errorStack);
+  console.error("error Message", errorMessage);
 
-    console.error('error stack', errorStack)
-    console.error('error Message', errorMessage)
-
-    return res.status(errorStatus).json({
-        status: errorStatus,
-        message: errorMessage,
-        stack: errorStack
-    })
-})
-// SERVER LISTENING ON THE PORT
-app.listen(PORT, () => {
-    connectDB();
-    console.log(`Server listening on this ${PORT}`);
+  return res.status(errorStatus).json({
+    status: errorStatus,
+    message: errorMessage,
+    stack: errorStack,
+  });
 });
 
-
-
-
+// SERVER LISTENING ON THE PORT
+app.listen(PORT, () => {
+  connectDB();
+  console.log(`Server listening on this ${PORT}`);
+});
