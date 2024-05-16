@@ -5,6 +5,7 @@ import authRoute from './Routes/authRoute.js';
 import adminRoute from './Routes/adminRoute.js';
 import invoiceRoute from './Routes/invoiceRoute.js';
 import appointmentsRoute from './Routes/appointmentsRoute.js';
+import patientsRoute from './Routes/patientRoute.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'
 
@@ -32,6 +33,7 @@ app.use('/api/auth', authRoute)
 app.use('/api/admin', adminRoute)
 app.use('/api/invoice', invoiceRoute)
 app.use('/api/appointments', appointmentsRoute)
+app.use('/api/patient', patientsRoute)
 
 
 //Error Middleware ====> 
