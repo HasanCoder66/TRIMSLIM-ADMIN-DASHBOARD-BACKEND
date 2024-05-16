@@ -3,14 +3,16 @@ import {verifyToken} from '../Utils/verifyToken.js'
 import {
     register, 
     login,
-    // deleteAuth,
-    // getAuth
+    updateUser,
+    deleteUser,
+    getUser
 } from '../Controllers/authController.js'
 const authRoute = express.Router()
 
 authRoute.post('/register', register)
-authRoute.post('/login', login)         //verifyToken,
-// authRoute.post('/delete', deleteAuth)
-// authRoute.post('/getAuth', getAuth)
+authRoute.post('/login',verifyToken, login)         
+authRoute.put('/update/:userId', updateUser)         
+authRoute.get('/getUser/:userId', getUser)
+authRoute.delete('/delete/:userId', deleteUser)
 
 export default authRoute
