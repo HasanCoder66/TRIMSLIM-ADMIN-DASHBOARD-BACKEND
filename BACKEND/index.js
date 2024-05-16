@@ -1,28 +1,19 @@
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
-import authRoute from "./Routes/authRoute.js";
-import adminRoute from "./Routes/adminRoute.js";
-import invoiceRoute from "./Routes/invoiceRoute.js";
-import appointmentsRoute from "./Routes/appointmentsRoute.js";
-import bodyParser from "body-parser";
-import cors from "cors";
+import express from 'express'
+import mongoose from 'mongoose'
+import dotenv from 'dotenv';
+import authRoute from './Routes/authRoute.js';
+import adminRoute from './Routes/adminRoute.js';
+import invoiceRoute from './Routes/invoiceRoute.js';
+import appointmentsRoute from './Routes/appointmentsRoute.js';
+import patientsRoute from './Routes/patientRoute.js';
+import bodyParser from 'body-parser';
+import cors from 'cors'
+import productsRoute from './Routes/productsRoute.js';
+import uploadRoute from './Routes/uploadRoute.js';
 import physicianRoute from "./Routes/PhysicianRoute.js";
 
-const app = express();
-
-dotenv.config();
-
-const corsOptions = {
-  origin: "*",
-};
-
-// Middlewares=====>>>>
-app.use(cors(corsOptions));
-app.use(cookieParser());
-app.use(express.json());
-app.use(bodyParser.json());
+dotenv.config()
+const app = express()
 
 //Port defined in env if in no one in .env then 8500 is executed.. ====>
 const PORT = process.env.PORT || 8500;
@@ -39,12 +30,24 @@ const connectDB = () => {
     });
 };
 
-//Routes =====>>>>
-app.use("/api/auth", authRoute);
-app.use("/api/admin", adminRoute);
-app.use("/api/invoice", invoiceRoute);
-app.use("/api/appointments", appointmentsRoute);
+// Middlewares=====>>>>
+app.use(cookieParser());
+app.use(express.json());
+app.use(bodyParser.json());
+//Reading in json file for this body parser =====>
+app.use(cors())
+
+// middlewares =====>
+app.use('/api/auth', authRoute)
+app.use('/api/admin', adminRoute)
+app.use('/api/invoice', invoiceRoute)
+app.use('/api/appointments', appointmentsRoute)
+app.use('/api/products', productsRoute)
+app.use('/api/upload', uploadRoute)
+app.use('/api/patient', patientsRoute)
 app.use("/api/physicians", physicianRoute)
+
+
 
 
 //Error Middleware ====>
