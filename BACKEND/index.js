@@ -7,6 +7,8 @@ import invoiceRoute from './Routes/invoiceRoute.js';
 import appointmentsRoute from './Routes/appointmentsRoute.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'
+import productsRoute from './Routes/productsRoute.js';
+import uploadRoute from './Routes/uploadRoute.js';
 
 dotenv.config()
 const app = express()
@@ -32,6 +34,8 @@ app.use('/api/auth', authRoute)
 app.use('/api/admin', adminRoute)
 app.use('/api/invoice', invoiceRoute)
 app.use('/api/appointments', appointmentsRoute)
+app.use('/api/products', productsRoute)
+app.use('/api/upload', uploadRoute)
 
 
 //Error Middleware ====> 
