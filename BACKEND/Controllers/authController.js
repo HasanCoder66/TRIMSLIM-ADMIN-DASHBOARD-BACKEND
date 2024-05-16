@@ -100,6 +100,7 @@ export const deleteUser = async (req, res, next) => {
   try {
     const userId = req.params.userId;
     const deleteUser = await User.findByIdAndDelete(userId);
+    console.log(deleteUser);
 
     res.status(200).json({
       status: "success",
