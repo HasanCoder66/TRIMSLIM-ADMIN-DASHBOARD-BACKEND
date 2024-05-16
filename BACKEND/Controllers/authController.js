@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 
 const { genSalt, hash } = bcryptjs
 
-//create auth controller ===>
+//create register controller ===>
 export const register = async (req, res, next) => {
     // console.log(req.body, 'req.body ====>')
     // console.log(req.body.username, 'req.body.username ====>')
@@ -40,6 +40,9 @@ export const register = async (req, res, next) => {
     }
 }
 
+
+
+//create login controller ===>
 export async function login(req, res, next) {
     try {
         const user = await User.findOne({ email: req.body.email });
@@ -74,154 +77,65 @@ export async function login(req, res, next) {
 }
 
 
-// Login Controller  =====>
-// export const login = async (req, res, next) => {
 
-//     try {
-//         const userLogin = await User.findOne({ email: req.body.email })
-//         console.log(userLogin)
-//         const { password, ...others } = userLogin._doc
+//create updateUser controller ===>
+export const updateUser = async (req, res, next) => {
 
-//         if (!userLogin) {
-//             next(createError(404,'user not found'))
-//             return
-//         }
+    try {
+        const userId = req.params.userId
+      const updateUser = await User.findByIdAndUpdate(userId, { $set: req.body }, { new: true })
 
-//         const token = jwt.sign({userLogin}, process.env.JWT, {expiresIn : "24h"})
-//         console.log(token)
+      if (!updateUser) {
+        return next(createError(404, 'User not found'));
+    }
 
-//         res.status(200).json({
-//             status: 'Success',
-//             message: "User login Successfully",
-//             data: others,
-//             access_token : token
-//         })
-
-//     } catch (error) {
-//         next(createError(error.status, error.message))
-//     }
-// }
+      res.status(200).json({
+        status: 'success',
+        message: "User Updated Successfully",
+        data : updateUser
+      })
 
 
-
-// export const updateAuth = async (req, res, next) => {
-
-//     try {
-//       const updateUser = await User.findByIdAndUpdate(req.params.id,)
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
+    } catch (error) {
+        next(createError(error.status || 500, error.message || "Server Error"));
+    }
+}
 
 
-// export const deleteAuth = async (req, res, next) => {
-// try {
-    
-// } catch (error) {
-//     cons
-// }
-// }
+export const deleteUser = async (req, res, next) => {
+try {
+    const userId = req.params.userId
+    const deleteUser = await User.findByIdAndDelete(userId)
+
+    res.status(200).json({
+        status : "success",
+        message : "User Deleted Successfully",
+    })
+} catch (error) {
+    next(createError(error.status, error.message))
+}
+}
 
 
-// export const getAuth = async (req, res, next) => {
+export const getUser = async (req, res, next) => {
+try {
+    const userId = req.params.userId
+    const getUser = await User.findById(userId )
+    res.status(200).json({
+        status:"Success",
+        message: " Single User Found",
+        data : getUser
+    })
+} catch (error) {
+    next(createError(error.status, error.message))
+}
+}
 
-// }
 
 
-// // export const forgetPass = async (req, res, next) => {};
-// import nodemailer from "nodemailer";
-// import User from "../Models/UserModel.js";
 
-// import { createError } from "../Utils/error.js";
-// import jwt from "jsonwebtoken";
 
-// const { genSalt, hash } = bcryptjs;
 
-// //=========================== USER REGISTERATON ====================//
-// // localhost:8800/api/auth/signup
-// export const register = async (req, res, next) => {
-//     // console.log(req.user.admin.isAdmin)
-//     // console.log(req.user.user.isCareManager, "===>>>> from controller")
-//     // console.log(req.user.admin, "===>>>> from controller")
-//     if (req.user?.admin || req.user?.user.isCareManager) {
-//         try {
-//             //==========HASHING PASSWORD USING BCRYPTJS===================//
-//             const salt = await genSalt(12);
-//             const hashPassword = await hash(req.body.password, salt);
-
-//             const newUser = new User({
-//                 username: req.body.username,
-//                 email: req.body.email,
-//                 password: hashPassword,
-//                 // profileImage: req.body?.profileImage,
-//                 isCareManager: req.body.isCareManager,
-//                 isCarer: req.body.isCarer,
-//                 // isAdmin : req.body.isAdmin
-//             });
-
-//             //REMOVING CRITICAL INFO FROM THE DATA TO SEND THE RESPONSE
-
-//             const { password, ...other } = newUser._doc;
-
-//             //SAVING THE USER
-//             await newUser.save();
-//             let message = "Registration Successful";
-
-//             res.status(200).send({
-//                 status: "Successful",
-//                 message: message,
-//                 data: other,
-//             });
-//         } catch (error) {
-//             next(error);
-//         }
-//     } else {
-//         res.status(400).json({
-//             message: "you are not authorized for this",
-//         });
-//     }
-// };
-
-// //=========================== USER LOGIN ====================//
-// //localhost:8800/api/auth/login
-// export async function login(req, res, next) {
-//     try {
-//         const user = await User.findOne({ email: req.body.email });
-//         console.log(user);
-//         if (!user) {
-//             // next(404, "User not found")
-//             next(createError(404, `User not found`)); //${message}
-//             return;
-//         }
-//         // const isCorrect = await bcryptjs.compare(req.body.password, user.password);
-//         // if (!isCorrect) {
-//         //     // next(400, "Incorrect email or password")
-//         //     next(createError(400, "Incorrect email or password"));
-//         //     return;
-//         // }
-//         const token = jwt.sign({ user }, process.env.JWT, { expiresIn: "24h" });
-//         const { password, ...other } = user._doc;
-
-//         let message = "User sign in successfully";
-//         if (user.isAdmin) {
-//             message = "Admin sign in successfully";
-//         } else if (user.isCareManager) {
-//             message = "Care Manager sign in successfully";
-//         } else if (user.isCarer) {
-//             message = "Carer sign in successfully";
-//         }
-
-//         res.status(200).send({
-//             status: "Success",
-//             message: message,
-//             data: other,
-//             access_token: token,
-//         });
-//     } catch (error) {
-//         // next(error.status, error.message)
-//         next(createError(error.status, error.message));
-//     }
-// }
 
 // //=========================== USER FORGOT PASSWORD ====================//
 // //localhost:8800/api/auth/login
