@@ -1,22 +1,22 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser';
-import dotenv from 'dotenv';
-import cors from 'cors'
-import authRoute from './Routes/authRoute.js';
-import adminRoute from './Routes/adminRoute.js';
-import invoiceRoute from './Routes/invoiceRoute.js';
-import appointmentsRoute from './Routes/appointmentsRoute.js';
-import patientsRoute from './Routes/patientRoute.js';
-import teamMembersRoute from './Routes/teamMemberRoute.js';
-import productsRoute from './Routes/productsRoute.js';
-import uploadRoute from './Routes/uploadRoute.js';
+import express from "express";
+import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
+import cors from "cors";
+import authRoute from "./Routes/authRoute.js";
+import adminRoute from "./Routes/adminRoute.js";
+import invoiceRoute from "./Routes/invoiceRoute.js";
+import appointmentsRoute from "./Routes/appointmentsRoute.js";
+import patientsRoute from "./Routes/patientRoute.js";
+import teamMembersRoute from "./Routes/teamMemberRoute.js";
+import productsRoute from "./Routes/productsRoute.js";
+import uploadRoute from "./Routes/uploadRoute.js";
 import physicianRoute from "./Routes/PhysicianRoute.js";
-import faqsRoute from './Routes/faqsRoute.js';
+import faqsRoute from "./Routes/faqsRoute.js";
 
-dotenv.config()
-const app = express()
+dotenv.config();
+const app = express();
 
 //Port defined in env if in no one in .env then 8500 is executed.. ====>
 const PORT = process.env.PORT || 8500;
@@ -38,22 +38,19 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.json());
 //Reading in json file for this body parser =====>
-app.use(cors())
+app.use(cors());
 
 // middlewares =====>
-app.use('/api/auth', authRoute)
-app.use('/api/admin', adminRoute)
-app.use('/api/invoice', invoiceRoute)
-app.use('/api/appointments', appointmentsRoute)
-app.use('/api/products', productsRoute)
-app.use('/api/upload', uploadRoute)
-app.use('/api/patient', patientsRoute)
-app.use("/api/physicians", physicianRoute)
-app.use("/api/teamMembers", teamMembersRoute)
-app.use("/api/faqs", faqsRoute)
-
-
-
+app.use("/api/auth", authRoute);
+app.use("/api/admin", adminRoute);
+app.use("/api/invoice", invoiceRoute);
+app.use("/api/appointments", appointmentsRoute);
+app.use("/api/products", productsRoute);
+app.use("/api/upload", uploadRoute);
+app.use("/api/patient", patientsRoute);
+app.use("/api/physicians", physicianRoute);
+app.use("/api/teamMembers", teamMembersRoute);
+app.use("/api/faqs", faqsRoute);
 
 //Error Middleware ====>
 app.use((err, req, res, next) => {
