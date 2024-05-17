@@ -11,6 +11,9 @@ import cors from 'cors'
 import productsRoute from './Routes/productsRoute.js';
 import uploadRoute from './Routes/uploadRoute.js';
 import physicianRoute from "./Routes/PhysicianRoute.js";
+import cookieParser from 'cookie-parser';
+import servicesRoute from './Routes/servicesRoute.js';
+import bannerRoute from './Routes/bannerRoutes.js';
 
 dotenv.config()
 const app = express()
@@ -46,6 +49,8 @@ app.use('/api/products', productsRoute)
 app.use('/api/upload', uploadRoute)
 app.use('/api/patient', patientsRoute)
 app.use("/api/physicians", physicianRoute)
+app.use("/api/services", servicesRoute)
+app.use("/api/banner", bannerRoute)
 
 
 
