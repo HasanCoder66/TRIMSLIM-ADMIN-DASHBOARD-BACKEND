@@ -9,10 +9,12 @@ import adminRoute from './Routes/adminRoute.js';
 import invoiceRoute from './Routes/invoiceRoute.js';
 import appointmentsRoute from './Routes/appointmentsRoute.js';
 import patientsRoute from './Routes/patientRoute.js';
+import teamMembersRoute from './Routes/teamMemberRoute.js';
+import bodyParser from 'body-parser';
 import productsRoute from './Routes/productsRoute.js';
 import uploadRoute from './Routes/uploadRoute.js';
 import physicianRoute from "./Routes/PhysicianRoute.js";
-
+import cookieParser from 'cookie-parser'
 dotenv.config()
 const app = express()
 
@@ -47,6 +49,7 @@ app.use('/api/products', productsRoute)
 app.use('/api/upload', uploadRoute)
 app.use('/api/patient', patientsRoute)
 app.use("/api/physicians", physicianRoute)
+app.use("/api/teamMembers", teamMembersRoute)
 
 
 
