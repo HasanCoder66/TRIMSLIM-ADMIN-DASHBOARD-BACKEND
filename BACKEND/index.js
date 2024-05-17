@@ -13,6 +13,7 @@ import teamMembersRoute from './Routes/teamMemberRoute.js';
 import productsRoute from './Routes/productsRoute.js';
 import uploadRoute from './Routes/uploadRoute.js';
 import physicianRoute from "./Routes/PhysicianRoute.js";
+import faqsRoute from './Routes/faqsRoute.js';
 
 dotenv.config()
 const app = express()
@@ -49,6 +50,7 @@ app.use('/api/upload', uploadRoute)
 app.use('/api/patient', patientsRoute)
 app.use("/api/physicians", physicianRoute)
 app.use("/api/teamMembers", teamMembersRoute)
+app.use("/api/faqs", faqsRoute)
 
 
 
