@@ -1,6 +1,9 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import cors from 'cors'
 import authRoute from './Routes/authRoute.js';
 import adminRoute from './Routes/adminRoute.js';
 import invoiceRoute from './Routes/invoiceRoute.js';
@@ -8,7 +11,6 @@ import appointmentsRoute from './Routes/appointmentsRoute.js';
 import patientsRoute from './Routes/patientRoute.js';
 import teamMembersRoute from './Routes/teamMemberRoute.js';
 import bodyParser from 'body-parser';
-import cors from 'cors'
 import productsRoute from './Routes/productsRoute.js';
 import uploadRoute from './Routes/uploadRoute.js';
 import physicianRoute from "./Routes/PhysicianRoute.js";
