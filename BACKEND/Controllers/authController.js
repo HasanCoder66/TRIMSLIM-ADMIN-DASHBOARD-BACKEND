@@ -3,7 +3,8 @@ import User from "../Models/UserModel.js";
 import { createError } from "../Utils/error.js";
 import jwt from "jsonwebtoken";
 import { responseMessages } from "../constants/responseMessages.js";
-import { BADREQUEST } from "../constants/httpStatus.js";
+import nodemailer from "nodemailer";
+// import { BADREQUEST } from "../constants/httpStatus.js";
 
 const { MISSING_FIELD_EMAIL, UN_AUTHORIZED_EMAIL } = responseMessages;
 const { genSalt, hash } = bcryptjs;
@@ -131,3 +132,49 @@ export const getUser = async (req, res, next) => {
     next(createError(error.status, error.message));
   }
 };
+
+
+
+
+
+export const sendEmailFunc = async (req, res, next) => {
+  try {
+    const toEmail = req.body.toEmail;
+
+    // Log to check if email is received in the request body
+    console.log("Email to send to:", toEmail);
+
+    if (!toEmail) {
+      throw createError(400, "Recipient email not provided");
+    }
+
+    let transporter = nodemailer.createTransport({
+      service: "Gmail",
+      secure: true,
+      port: 465,
+      auth: {
+        user: process.env.FOUNDER_EMAIL, // Sender's email address
+        pass: process.env.FOUNDER_PASS, // Sender's email password
+      },
+    });
+
+    let info = await transporter.sendMail({
+      from: process.env.FOUNDER_EMAIL, // Sender's email address
+      to: toEmail, // Receiver's email address
+      subject: "TrimSlim Thankful to you!", // Email subject
+      text: `Thank you for Registering Yourself`, // Email body
+    });
+
+    console.log("Message sent: %s", info.messageId);
+    res.status(200).json({
+      status: "Success",
+      message: "Email Sent Successfully",
+    });
+
+  } catch (error) {
+    console.error("Error sending email:", error);
+    next(createError(error.status || 500, error.message));
+  }
+};
+
+
