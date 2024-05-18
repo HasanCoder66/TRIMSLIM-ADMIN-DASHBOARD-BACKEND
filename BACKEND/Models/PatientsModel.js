@@ -21,19 +21,19 @@ const patientSchema = Schema(
     },
     status: {
       type: String,
-      value: ["approved", "rejected"],
-      default: "pending approval",
+      value: ["approved", "rejected", "pending"],
+      default: "pending",
     },
     age: {
       type: Number,
-      required: "true",
+      // required: "true",
     },
     dob: {
       type: String,
     },
     password: {
       type: String,
-      required: true,
+      // required: true,
     },
   },
   { timeStamps: true }
