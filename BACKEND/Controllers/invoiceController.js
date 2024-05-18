@@ -85,7 +85,15 @@ export const getCompletedInvoices = async (req, res, next) => {
 export const deleteInvoice = async (req, res, next) => {
     try {
         const invoiceId = req.params.invoiceId
+        const invoice = await InvoicesModel.findById(invoiceId)
+        if(!invoice) {
+            res.status(404).json({
+                status: "failed",
+                message: 'invoice not found',
+            })
+        }
         await InvoicesModel.findByIdAndDelete(invoiceId)
+        
         res.status(200).json({
             status: "success",
             message: 'Delete invoice successfully',

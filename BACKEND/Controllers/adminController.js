@@ -10,6 +10,19 @@ const { genSalt, hash } = bcryptjs;
 // localhost:8000/api/admin/signup
 export const register = async (req, res, next) => {
   try {
+    const {
+      invoiceAdmin,
+      appointmentAdmin,
+      patientAdmin,
+      physicianAdmin,
+      productAdmin,
+      slidingBannerAdmin,
+      serviceAdmin,
+      teamMemberAdmin,
+      faqsAdmin,
+      testimonialAdmin,
+      contentPageAdmin,
+    } = req.body;
     //==========HASHING PASSWORD USING BCRYPTJS===================//
     const salt = await genSalt(12);
     const hashPassword = await hash(req.body.password, salt);
@@ -18,6 +31,17 @@ export const register = async (req, res, next) => {
       adminName: req.body.adminName,
       email: req.body.email,
       password: hashPassword,
+      invoiceAdmin,
+      appointmentAdmin,
+      patientAdmin,
+      physicianAdmin,
+      productAdmin,
+      slidingBannerAdmin,
+      serviceAdmin,
+      teamMemberAdmin,
+      faqsAdmin,
+      testimonialAdmin,
+      contentPageAdmin,
     });
 
     //REMOVING CRITICAL INFO FROM THE DATA TO SEND THE RESPONSE
@@ -42,7 +66,7 @@ export const register = async (req, res, next) => {
 export async function login(req, res, next) {
   try {
     const admin = await Admin.findOne({ email: req.body.email });
-    console.log(admin);
+    // console.log(admin);
     if (!admin) {
       // next(404, "User not found")
       next(createError(404, `Admin not found`)); //${message}
@@ -56,8 +80,9 @@ export async function login(req, res, next) {
     }
     const token = jwt.sign({ admin }, process.env.JWT, { expiresIn: "24h" });
     const { password, ...other } = admin._doc;
+    // console.log;
 
-    res.status(200).send({
+    res.cookie("access_token", token, { httpOnly: true }).status(200).send({
       status: "Success",
       message: "Admin Login Successfully",
       data: other,
