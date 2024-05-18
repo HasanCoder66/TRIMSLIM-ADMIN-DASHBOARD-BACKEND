@@ -2,7 +2,10 @@ import bcryptjs from "bcryptjs";
 import User from "../Models/UserModel.js";
 import { createError } from "../Utils/error.js";
 import jwt from "jsonwebtoken";
+import { responseMessages } from "../constants/responseMessages.js";
+import { BADREQUEST } from "../constants/httpStatus.js";
 
+const { MISSING_FIELD_EMAIL, UN_AUTHORIZED_EMAIL } = responseMessages;
 const { genSalt, hash } = bcryptjs;
 
 //create register controller ===>
@@ -15,6 +18,8 @@ export const register = async (req, res, next) => {
   try {
     const salt = await genSalt(12);
     const hashedPassword = await hash(req.body.password, salt);
+
+    // const email = req.body.email;
 
     const newUser = new User({
       username: req.body.username,
@@ -43,7 +48,7 @@ export const register = async (req, res, next) => {
 export async function login(req, res, next) {
   try {
     const user = await User.findOne({ email: req.body.email });
-    console.log(user);
+    // console.log(user);
     if (!user) {
       // next(404, "User not found")
       next(createError(404, `User not found`)); //${message}
@@ -57,15 +62,17 @@ export async function login(req, res, next) {
     }
     const token = jwt.sign({ user }, process.env.JWT, { expiresIn: "24h" });
     const { password, ...other } = user._doc;
-
     let message = "User sign in successfully";
-
-    res.status(200).send({
-      status: "Success",
-      message: message,
-      data: other,
-      access_token: token,
-    });
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .send({
+        status: "Success",
+        message: message,
+        data: other,
+      });
   } catch (error) {
     // next(error.status, error.message)
     next(createError(error.status, error.message));
@@ -124,56 +131,3 @@ export const getUser = async (req, res, next) => {
     next(createError(error.status, error.message));
   }
 };
-
-// //=========================== USER FORGOT PASSWORD ====================//
-// //localhost:8800/api/auth/login
-// export async function forgotPassword(req, res, next) {
-//     try {
-//         const { email } = req.body;
-//         if (email) {
-//             const user = await User.findOne({ email: email });
-//             // console.log(user)
-//             if (user) {
-//                 const secret = user._id + process.env.JWT;
-//                 const token = jwt.sign({ secret }, process.env.JWT, {
-//                     expiresIn: "30m",
-//                 });
-//                 const link = `http:localhost:8800/api/auth/resetpassword/usertoken/${token}`;
-//                 const transport = nodemailer.createTransport({
-//                     service: "gmail",
-//                     auth: {
-//                         user: process.env.NODEMAILER_USER,
-//                         pass: process.env.NODEMAILER_PASS,
-//                     },
-//                 });
-
-//                 const mailOptions = {
-//                     from: process.env.EMAIL_FROM,
-//                     to: process.env.EMAIL_TO,
-//                     subject: "reset password link",
-//                     text: `Please click on the following link ${link} to reset your password`,
-//                 };
-
-//                 transport.sendMail(mailOptions, (err, info) => {
-//                     if (err) {
-//                         console.log(err.message);
-//                         return res.status(400).send({
-//                             status: "Failed",
-//                             message: err.message,
-//                         });
-//                     } else {
-//                         console.log("email send" + info.response);
-//                         return res.status(200).send({
-//                             status: "Success",
-//                             message: "Reset password link generated",
-//                         });
-//                     }
-//                 });
-//             }
-//         } else {
-//             console.log("no user found");
-//         }
-//     } catch (error) {
-//         next(createError(error.status, error.message));
-//     }
-// }

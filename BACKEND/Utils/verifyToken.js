@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import { createError } from './error.js'
 
 export const verifyToken = (req, res, next) => {
-    const token = req.body.access_token;
+    const token = req.cookie.access_token;
     console.log(token)
 
     if (!token) {
