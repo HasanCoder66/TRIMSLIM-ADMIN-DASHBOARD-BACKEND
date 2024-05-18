@@ -16,6 +16,7 @@ import physicianRoute from "./Routes/PhysicianRoute.js";
 import faqsRoute from "./Routes/faqsRoute.js";
 import servicesRoute from "./Routes/servicesRoute.js";
 import bannerRoute from "./Routes/bannerRoutes.js";
+import testimonialRoute from "./Routes/testimonialRoute.js";
 
 dotenv.config();
 const app = express();
@@ -56,6 +57,7 @@ app.use("/api/teamMembers", teamMembersRoute);
 app.use("/api/faqs", faqsRoute);
 app.use("/api/services", servicesRoute);
 app.use("/api/banner", bannerRoute);
+app.use("/api/testimonials", testimonialRoute);
 
 //Error Middleware ====>
 app.use((err, req, res, next) => {
