@@ -1,25 +1,44 @@
-import express from "express"
+import express from "express";
 import {
-    createAppointments,
-    updateAppointments,
-    getRejectedAppointments,
-    getCompletedAppointments,
-    deleteAppointments,
-    getSingleAppointments,
-    getAllAppointments
-} from '../Controllers/appointmentController.js';
+  createAppointments,
+  updateAppointments,
+  getRejectedAppointments,
+  getCompletedAppointments,
+  deleteAppointments,
+  getSingleAppointments,
+  getAllAppointments,
+} from "../Controllers/appointmentController.js";
+import { verifyAppointmentAdmin, verifyToken } from "../Utils/verifyToken.js";
 
-
-const appointmentsRoute = express.Router()
+const appointmentsRoute = express.Router();
 
 // appointments route middlewares ====>
-appointmentsRoute.post('/create', createAppointments)
-appointmentsRoute.put('/update/:appointmentId', updateAppointments)
-appointmentsRoute.delete('/delete/:appointmentId', deleteAppointments)
-appointmentsRoute.get('/getSingle/:appointmentId', getSingleAppointments)
-appointmentsRoute.get('/find', getAllAppointments)
-appointmentsRoute.get('/rejected', getRejectedAppointments);
-appointmentsRoute.get('/completed', getCompletedAppointments);
+appointmentsRoute.post("/create",verifyToken, verifyAppointmentAdmin, createAppointments);
+appointmentsRoute.put(
+  "/update/:appointmentId",
+  verifyAppointmentAdmin,
+  updateAppointments
+);
+appointmentsRoute.delete(
+  "/delete/:appointmentId",
+  verifyAppointmentAdmin,
+  deleteAppointments
+);
+appointmentsRoute.get(
+  "/getSingle/:appointmentId",
+  verifyAppointmentAdmin,
+  getSingleAppointments
+);
+appointmentsRoute.get("/find", verifyAppointmentAdmin, getAllAppointments);
+appointmentsRoute.get(
+  "/rejected",
+  verifyAppointmentAdmin,
+  getRejectedAppointments
+);
+appointmentsRoute.get(
+  "/completed",
+  verifyAppointmentAdmin,
+  getCompletedAppointments
+);
 
-
-export default appointmentsRoute
+export default appointmentsRoute;

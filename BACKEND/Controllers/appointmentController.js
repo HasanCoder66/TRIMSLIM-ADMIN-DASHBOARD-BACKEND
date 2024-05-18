@@ -4,6 +4,7 @@ import { createError } from "../Utils/error.js"
 
 // createAppointments api ===>
 export const createAppointments = async (req, res, next) => {
+  
     try {
         const createAppointement = await new AppointmentModel(
             {
@@ -85,6 +86,13 @@ export const getCompletedAppointments = async (req, res, next) => {
 export const deleteAppointments = async (req, res, next) => {
     try {
         const appointmentId = req.params.appointmentId
+        const appointment = await InvoicesModel.findById(appointmentId)
+        if(!appointment) {
+            res.status(404).json({
+                status: "failed",
+                message: 'invoice not found',
+            })
+        }
         await AppointmentModel.findByIdAndDelete(appointmentId)
         res.status(200).json({
             status: "success",
