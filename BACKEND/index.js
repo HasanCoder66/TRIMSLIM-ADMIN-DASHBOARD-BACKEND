@@ -13,7 +13,9 @@ import teamMembersRoute from "./Routes/teamMemberRoute.js";
 import productsRoute from "./Routes/productsRoute.js";
 import uploadRoute from "./Routes/uploadRoute.js";
 import physicianRoute from "./Routes/PhysicianRoute.js";
-import faqsRoute from './Routes/faqsRoute.js';
+import faqsRoute from "./Routes/faqsRoute.js";
+import servicesRoute from "./Routes/servicesRoute.js";
+import bannerRoute from "./Routes/bannerRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -41,19 +43,18 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // middlewares =====>
-app.use('/api/auth', authRoute)
-app.use('/api/admin', adminRoute)
-app.use('/api/invoice', invoiceRoute)
-app.use('/api/appointments', appointmentsRoute)
-app.use('/api/products', productsRoute)
-app.use('/api/upload', uploadRoute)
-app.use('/api/patient', patientsRoute)
-app.use("/api/physicians", physicianRoute)
-app.use("/api/teamMembers", teamMembersRoute)
-app.use("/api/faqs", faqsRoute)
-
-
-
+app.use("/api/auth", authRoute);
+app.use("/api/admin", adminRoute);
+app.use("/api/invoice", invoiceRoute);
+app.use("/api/appointments", appointmentsRoute);
+app.use("/api/products", productsRoute);
+app.use("/api/upload", uploadRoute);
+app.use("/api/patient", patientsRoute);
+app.use("/api/physicians", physicianRoute);
+app.use("/api/teamMembers", teamMembersRoute);
+app.use("/api/faqs", faqsRoute);
+app.use("/api/services", servicesRoute);
+app.use("/api/banner", bannerRoute);
 
 //Error Middleware ====>
 app.use((err, req, res, next) => {

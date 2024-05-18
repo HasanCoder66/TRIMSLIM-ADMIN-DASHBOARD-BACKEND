@@ -17,7 +17,8 @@ export const responseMessages = {
   SUCCESS_DEACTIVATE: "User Deactivation Successful",
   SUCCESS_ACTIVATE: "User Activation Successful",
   NO_USER: "No User found",
-  UN_AUTHORIZED: "Email or Password is not valid",
+  UN_AUTHORIZED_EMAIL: "Email is not valid",
+  UN_AUTHORIZED_PASSWORD: "Password is not valid",
   PASSWORD_AND_CONFIRM_NO_MATCH:
     "New Password & Confirm Password are not match",
   PASSWORD_CHANGE: "Password change Successfully",
@@ -25,6 +26,8 @@ export const responseMessages = {
   PASSWORD_UPDATED: "Password reset Successfully",
   RESET_LINK_SUCCESS: "Reset Email Send... Please Check your Email",
   MISSING_FIELD_EMAIL: "Email Field is Required",
+  MISSING_FIELD_PASSWORD: "Password Field is Required",
+  PASSWORD_LENGTH_6: "Password must be atleast 8 character long",
   SUCCESS_CATEGORY: "Category Added Successful",
   INVITATION_UNSUCCESS:
     "Your Invitation Counts has been exceeded, contact your administrator",
