@@ -17,7 +17,7 @@ export const verifyToken = (req, res, next) => {
 }
 
 export const verifySuperAdmin = (req, res, next) => {
-    verifyToken(req, res, next, () => {
+    verifyToken(req, res, () => {
         if (req.user.superAdmin) {
             next()
         } else {
@@ -49,7 +49,7 @@ export const verifyAppointmentAdmin = (req, res, next) => {
 
 
 export const verifyPatientAdmin = (req, res, next) => {
-    verifyToken(req, res, next, () => {
+    verifyToken(req, res, () => {
         if (req.admin.admin.patientAdmin) {
             next()
         } else {
@@ -60,7 +60,7 @@ export const verifyPatientAdmin = (req, res, next) => {
 
 
 export const verifyPhysicianAdmin = (req, res, next) => {
-    verifyToken(req, res, next, () => {
+    verifyToken(req, res, () => {
         if (req.admin.admin.physicianAdmin) {
             next()
         } else {
@@ -71,7 +71,7 @@ export const verifyPhysicianAdmin = (req, res, next) => {
 
 
 export const verifyProductAdmin = (req, res, next) => {
-    verifyToken(req, res, next, () => {
+    verifyToken(req, res, () => {
         if (req.admin.admin.productAdmin) {
             next()
         } else {
@@ -82,7 +82,7 @@ export const verifyProductAdmin = (req, res, next) => {
 
 
 export const verifySlidingBannerAdmin = (req, res, next) => {
-    verifyToken(req, res, next, () => {
+    verifyToken(req, res, () => {
         if (req.admin.admin.slidingBannerAdmin) {
             next()
         } else {
@@ -92,7 +92,7 @@ export const verifySlidingBannerAdmin = (req, res, next) => {
 }
 
 export const verifyServiceAdmin = (req, res, next) => {
-    verifyToken(req, res, next, () => {
+    verifyToken(req, res, () => {
         if (req.admin.admin.serviceAdmin) {
             next()
         } else {
@@ -102,7 +102,7 @@ export const verifyServiceAdmin = (req, res, next) => {
 }
 
 export const verifyTeamMemberAdmin = (req, res, next) => {
-    verifyToken(req, res, next, () => {
+    verifyToken(req, res, () => {
         if (req.admin.admin.teamMemberAdmin) {
             next()
         } else {
@@ -113,7 +113,7 @@ export const verifyTeamMemberAdmin = (req, res, next) => {
 
 
 export const verifyFaqsAdmin = (req, res, next) => {
-    verifyToken(req, res, next, () => {
+    verifyToken(req, res, () => {
         if (req.admin.admin.faqsAdmin) {
             next()
         } else {
@@ -124,7 +124,7 @@ export const verifyFaqsAdmin = (req, res, next) => {
 
 
 export const verifyTestimonialAdmin = (req, res, next) => {
-    verifyToken(req, res, next, () => {
+    verifyToken(req, res, () => {
         if (req.admin.admin.testimonialAdmin) {
             next()
         } else {
@@ -135,7 +135,7 @@ export const verifyTestimonialAdmin = (req, res, next) => {
 
 
 export const verifyContentPageAdmin = (req, res, next) => {
-    verifyToken(req, res, next, () => {
+    verifyToken(req, res, () => {
         if (req.admin.admin.contentPageAdmin) {
             next()
         } else {
