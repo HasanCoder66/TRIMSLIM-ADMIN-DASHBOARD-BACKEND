@@ -17,12 +17,13 @@ import faqsRoute from "./Routes/faqsRoute.js";
 import servicesRoute from "./Routes/servicesRoute.js";
 import bannerRoute from "./Routes/bannerRoutes.js";
 import testimonialRoute from "./Routes/testimonialRoute.js";
+import meetRoute from "./Routes/zoomMeetRoute.js";
 
 dotenv.config();
 const app = express();
 
 //Port defined in env if in no one in .env then 8500 is executed.. ====>
-const PORT = process.env.PORT || 8500;
+const PORT = process.env.PORT || 8000;
 
 // Connect to MongoDB =====>
 const connectDB = () => {
@@ -58,6 +59,7 @@ app.use("/api/faqs", faqsRoute);
 app.use("/api/services", servicesRoute);
 app.use("/api/banner", bannerRoute);
 app.use("/api/testimonials", testimonialRoute);
+app.use("/api/meeting-link", meetRoute);
 
 //Error Middleware ====>
 app.use((err, req, res, next) => {
