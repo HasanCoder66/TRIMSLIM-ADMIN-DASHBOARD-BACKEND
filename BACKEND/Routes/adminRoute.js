@@ -8,7 +8,8 @@ import {
   updateAdmin,
   deleteAdmin,
   getAdmin,
-  getAllAdmin
+  getAllAdmin,
+  updateAdminPassword
 } from "../Controllers/adminCrudController.js";
 
 const adminRoutes = express.Router();
@@ -19,8 +20,8 @@ adminRoutes.post("/signup", register);
 //localhost:8000/api/admin/login
 adminRoutes.post("/login", login);
 
-//localhost:8000/api/admin/forgetpass
-// adminRoutes.get("/forgetPass", forgotPassword);
+// localhost:8000/api/admin/update/:adminId
+adminRoutes.put("/updateAdminPassword/:adminId", updateAdminPassword);
 
 //localhost:8000/api/admin/updateAdmin
 adminRoutes.put("/update/:adminId", updateAdmin);
