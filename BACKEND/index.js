@@ -22,6 +22,7 @@ import meetRoute from "./Routes/zoomMeetRoute.js";
 dotenv.config();
 const app = express();
 
+    // "dev": "nodemon index.js"
 //Port defined in env if in no one in .env then 8500 is executed.. ====>
 const PORT = process.env.PORT || 8000;
 
